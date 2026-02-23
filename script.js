@@ -412,6 +412,7 @@ function showToast(message) {
 // ==================== PDF DOWNLOAD ====================
 function downloadPDF() {
     const element = document.getElementById('cover-page');
+    const previewWrapper = document.getElementById('previewWrapper');
 
     if (typeof html2pdf === 'undefined') {
         showToast('PDF library not loaded!');
@@ -420,9 +421,19 @@ function downloadPDF() {
 
     showToast('Generating PDF...');
 
-    // Store original transform, reset to scale(1) for capture
+    // Store original styles
     const originalTransform = element.style.transform;
+    const originalMinWidth = element.style.minWidth;
+    const originalWrapperOverflow = previewWrapper.style.overflowX;
+    const originalWrapperJustify = previewWrapper.style.justifyContent;
+
+    // Temporarily reset to print-friendly styles
     element.style.transform = 'scale(1)';
+    element.style.minWidth = 'auto';
+    element.style.width = '210mm';
+    element.style.height = '297mm';
+    previewWrapper.style.overflowX = 'visible';
+    previewWrapper.style.justifyContent = 'center';
 
     const opt = {
         margin: 0,
@@ -432,7 +443,9 @@ function downloadPDF() {
             scale: 3,
             useCORS: true,
             letterRendering: true,
-            logging: false
+            logging: false,
+            width: 794,  // 210mm at 96dpi
+            height: 1123 // 297mm at 96dpi
         },
         jsPDF: {
             unit: 'mm',
@@ -447,8 +460,14 @@ function downloadPDF() {
         .toPdf()
         .get('pdf')
         .then(function(pdf) {
-            // Restore original transform
+            // Restore original styles
             element.style.transform = originalTransform;
+            element.style.minWidth = originalMinWidth;
+            element.style.width = '';
+            element.style.height = '';
+            previewWrapper.style.overflowX = originalWrapperOverflow;
+            previewWrapper.style.justifyContent = originalWrapperJustify;
+            
             // Remove extra pages if any
             const totalPages = pdf.internal.getNumberOfPages();
             for (let i = totalPages; i > 1; i--) {
@@ -517,7 +536,7 @@ function debounce(func, wait) {
         timeout = setTimeout(() => func(...args), wait);
     };
 }
- 
+
 const debouncedUpdate = debounce(updatePreview, 150);
 document.querySelectorAll('input[type="text"]').forEach(input => {
     input.removeEventListener('input', updatePreview);
