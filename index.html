@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="bn">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VU Cover Page Generator</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta name="google-site-verification" content="ZwDEgEGmEa47GLyvqzhdXWMlq2dPgH5TERYDwdRZyMA" />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Animated Background -->
+    <div class="bg-canvas">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+        <div class="grid-overlay"></div>
+        <div class="floating-particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+    </div>
+
+    <!-- Fixed Menu Toggle Button (Always Visible) -->
+    <!-- Moved into preview-controls for better responsive alignment -->
+
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+    <div class="main-layout" id="layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-content-wrapper">
+                <div class="sidebar-header">
+                    <div class="header-glow"></div>
+                    <h2><i class="fas fa-graduation-cap"></i> VU CSE Cover</h2>
+                    <p class="subtitle">Futuristic Design System</p>
+                    <!-- developer-info moved into .form-scroll so it scrolls with inputs -->
+                </div>
+
+                <div class="form-scroll">
+                    <div class="developer-info">
+                        <div class="dev-card">
+                            <div class="avatar-circle">
+                                <img src="logo/dev.png" alt="Developer Photo" class="dev-photo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                                <i class="fas fa-user-graduate fallback-icon" style="display:none;"></i>
+                            </div>
+                            <div class="dev-details">
+                                <span class="dev-name">Mafikul Islam</span>
+                                <div class="dev-meta">
+                                    <span class="badge">232311070</span>
+                                    <span class="badge">6th B</span>
+                                </div>
+                                <div class="dept-info">Dept. of CSE • 33rd Batch</div>
+                            </div>
+                            <div class="social-links">
+                                <a href="https://wa.me/+8801788302771" target="_blank" title="WhatsApp" class="social-btn whatsapp">
+                                    <i class="fa-brands fa-whatsapp"></i>
+                                </a>
+                                <a href="https://www.facebook.com/Mafikul01" target="_blank" title="Facebook" class="social-btn facebook">
+                                    <i class="fa-brands fa-facebook"></i>
+                                </a>
+                                <a href="https://github.com/Mafikul01" target="_blank" title="GitHub" class="social-btn github">
+                                    <i class="fa-brands fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Theme Switcher -->
+                    <div class="input-card theme-card">
+                        <label><i class="fas fa-palette"></i> Theme Mode</label>
+                        <div class="theme-switcher">
+                            <button class="theme-btn active" onclick="setTheme('cyber')" data-theme="cyber">
+                                <i class="fas fa-robot"></i> Cyber
+                            </button>
+                            <button class="theme-btn" onclick="setTheme('neon')" data-theme="neon">
+                                <i class="fas fa-moon"></i> Neon
+                            </button>
+                            <button class="theme-btn" onclick="setTheme('minimal')" data-theme="minimal">
+                                <i class="fas fa-circle"></i> Minimal
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="input-card quick-actions-card">
+                        <label><i class="fas fa-bolt"></i> Quick Actions</label>
+                        <div class="quick-actions">
+                            <button class="action-btn" onclick="fillSampleData()" title="Load Sample Data">
+                                <i class="fas fa-magic"></i>
+                                <span>Sample</span>
+                            </button>
+                            <button class="action-btn" onclick="clearAllFields()" title="Clear All">
+                                <i class="fas fa-eraser"></i>
+                                <span>Clear</span>
+                            </button>
+                            <button class="action-btn" onclick="saveToLocalStorage()" title="Save Draft">
+                                <i class="fas fa-save"></i>
+                                <span>Save</span>
+                            </button>
+                            <button class="action-btn" onclick="loadFromLocalStorage()" title="Load Draft">
+                                <i class="fas fa-folder-open"></i>
+                                <span>Load</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="input-card">
+                        <label><i class="fas fa-university"></i> University & Department</label>
+                        <div class="input-wrapper select-wrapper">
+                            <i class="fas fa-graduation-cap input-icon"></i>
+                            <select id="deptSelect" onchange="onDeptChange()">
+                                <option value="cse">Computer Science & Engineering (CSE)</option>
+                                <option value="eee">Electrical & Electronics Engineering (EEE)</option>
+                                <option value="bba">Bachelor of Business Administration (BBA)</option>
+                                <option value="english">English</option>
+                                <option value="economics">Economics</option>
+                                <option value="law">Law</option>
+                                <option value="pharmacy">Pharmacy</option>
+                                <option value="political">Political Science</option>
+                                <option value="islamic">Islamic Studies</option>
+                                <option value="jcms">Journalism & Communication (JCMS)</option>
+                                <option value="publichealth">Public Health</option>
+                                <option value="sociology">Sociology</option>
+                                <option value="other">Other (Custom Department)</option>
+                            </select>
+                        </div>
+                        <div class="input-wrapper">
+                            <i class="fas fa-building input-icon"></i>
+                            <input type="text" id="deptIn" value="Department of CSE" oninput="updatePreview()" placeholder="Department Name" />
+                        </div>
+                        <div class="input-wrapper">
+                            <i class="fas fa-school input-icon"></i>
+                            <input type="text" id="uniIn" value="Varendra University" oninput="updatePreview()" placeholder="University Name" />
+                        </div>
+                    </div>
+
+                    <div class="input-card">
+                        <label><i class="fas fa-book"></i> Course Information</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-bookmark input-icon"></i>
+                            <input type="text" id="courseTitleIn" placeholder="e.g., Digital Signal Processing Lab" />
+                        </div>
+                        <div class="input-wrapper">
+                            <i class="fas fa-hashtag input-icon"></i>
+                            <input type="text" id="codeIn" placeholder="Course Code" oninput="updatePreview()" />
+                        </div>
+                    </div>
+
+                    <div class="input-card">
+                        <label><i class="fas fa-flask"></i> Report & Experiment</label>
+                        <div class="flex-row">
+                            <div class="input-wrapper">
+                                <i class="fas fa-file-alt input-icon"></i>
+                                <input type="text" id="reportNoIn" placeholder="Report No: 01" oninput="updatePreview()" />
+                            </div>
+                            <div class="input-wrapper">
+                                <i class="fas fa-vial input-icon"></i>
+                                <input type="text" id="expNoIn" placeholder="Exp No: 01" oninput="updatePreview()" />
+                            </div>
+                        </div>
+                        <div class="input-wrapper" style="margin-top: 12px">
+                            <i class="fas fa-pencil-alt input-icon"></i>
+                            <input type="text" id="expNameIn" placeholder="Name of Experiment" oninput="updatePreview()" />
+                        </div>
+                    </div>
+
+                    <div class="input-card">
+                        <label><i class="fas fa-user-graduate"></i> Student Details</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" id="stuNameIn" placeholder="Enter Your Name" oninput="updatePreview()" />
+                        </div>
+                        <div class="input-wrapper">
+                            <i class="fas fa-id-card input-icon"></i>
+                            <input type="text" id="stuIdIn" placeholder="Student ID" oninput="updatePreview()" />
+                        </div>
+                        <div class="flex-row">
+                            <div class="input-wrapper select-wrapper">
+                                <i class="fas fa-calendar input-icon"></i>
+                                <select id="semIn" onchange="onSemChange()">
+                                    <option value="">Semester</option>
+                                    <option value="1st">1st</option>
+                                    <option value="2nd">2nd</option>
+                                    <option value="3rd">3rd</option>
+                                    <option value="4th">4th</option>
+                                    <option value="5th">5th</option>
+                                    <option value="6th">6th</option>
+                                    <option value="7th">7th</option>
+                                    <option value="8th">8th</option>
+                                    <option value="9th">9th</option>
+                                    <option value="10th">10th</option>
+                                    <option value="other">Other (Custom Semester)</option>
+                                </select>
+                                <input type="text" id="semOther" placeholder="Enter semester" style="display:none;margin-top:8px;" oninput="updatePreview()" />
+                            </div>
+                            <div class="input-wrapper select-wrapper">
+                                <i class="fas fa-users input-icon"></i>
+                                <select id="secIn" onchange="onSecChange()">
+                                    <option value="">Section</option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                    <option value="E">E</option>
+                                    <option value="F">F</option>
+                                    <option value="G">G</option>
+                                    <option value="H">H</option>
+                                    <option value="other">Other (Custom Section)</option>
+                                </select>
+                                <input type="text" id="secOther" placeholder="Enter section" style="display:none;margin-top:8px;" oninput="updatePreview()" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-card">
+                        <label><i class="fas fa-chalkboard-teacher"></i> Course Instructors</label>
+                        <div class="teacher-section">
+                            <div class="teacher-inputs">
+                                <div class="input-wrapper">
+                                    <i class="fas fa-user-tie input-icon"></i>
+                                    <input type="text" id="t1Name" placeholder="Course Teacher 1" oninput="updatePreview()" />
+                                </div>
+                                <div class="input-wrapper select-wrapper">
+                                    <i class="fas fa-briefcase input-icon"></i>
+                                    <select id="t1Designation" onchange="onT1DesignationChange()">
+                                        <option value="lecturer">Lecturer</option>
+                                        <option value="associate">Associate Professor</option>
+                                        <option value="custom">Custom</option>
+                                    </select>
+                                    <input type="text" id="t1DesignationOther" placeholder="Enter custom designation" style="display:none;margin-top:8px;" oninput="updatePreview()" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="teacher-section">
+                            <div class="teacher-inputs">
+                                <div class="input-wrapper">
+                                    <i class="fas fa-user-tie input-icon"></i>
+                                    <input type="text" id="t2Name" placeholder="Course Teacher 2" oninput="updatePreview()" />
+                                </div>
+                                <div class="input-wrapper select-wrapper">
+                                    <i class="fas fa-briefcase input-icon"></i>
+                                    <select id="t2Designation" onchange="onT2DesignationChange()">
+                                        <option value="lecturer">Lecturer</option>
+                                        <option value="associate">Associate Professor</option>
+                                        <option value="custom">Custom</option>
+                                    </select>
+                                    <input type="text" id="t2DesignationOther" placeholder="Enter custom designation" style="display:none;margin-top:8px;" oninput="updatePreview()" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Options -->
+                    <div class="input-card collapsible-card">
+                        <div class="card-header" onclick="toggleAdvanced()">
+                            <label><i class="fas fa-cog"></i> Advanced Options</label>
+                            <i class="fas fa-chevron-down toggle-icon" id="advancedToggle"></i>
+                        </div>
+                        <div class="advanced-content" id="advancedContent">
+                            <div class="option-row">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="showBorder" onchange="toggleBorder()" checked>
+                                    <span>Show Table Borders</span>
+                                </label>
+                            </div>
+                            <div class="option-row">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="showLogos" onchange="toggleLogos()" checked>
+                                    <span>Display Logos</span>
+                                </label>
+                            </div>
+                            <div class="option-row">
+                                <label class="font-select-label">Font Size:</label>
+                                <select id="fontSize" onchange="changeFontSize()">
+                                    <option value="small">Small</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="large">Large</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-footer">
+                    <div class="stats-bar">
+                        <div class="stat">
+                            <i class="fas fa-check-circle"></i>
+                            <span id="completionRate">0%</span>
+                        </div>
+                        <div class="stat">
+                            <i class="fas fa-clock"></i>
+                            <span id="lastSaved">Not saved</span>
+                        </div>
+                    </div>
+                    <div class="live-preview-indicator" onclick="toggleSidebar()">
+                        <i class="fas fa-eye"></i>
+                        <span>Live Preview Active</span>
+                        <div class="pulse-dot"></div>
+                    </div>
+                    <button class="download-btn" onclick="downloadPDF()">
+                        <i class="fas fa-rocket"></i>
+                        <span>Generate PDF</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="preview-area">
+            <div class="preview-controls">
+                <button class="menu-toggle-btn" id="menuToggleBtn" onclick="toggleSidebar()" title="Toggle Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            
+                
+                <button class="mobile-download-btn" onclick="downloadPDF()">
+                    <i class="fas fa-download"></i> Download PDF
+                </button>
+            </div>
+
+            <div class="preview-wrapper" id="previewWrapper">
+                <div id="cover-page">
+                    <div class="header">
+                        <div class="logo-box left-logo">
+                            <img src="logo/dept.png" alt="Dept Logo" />
+                        </div>
+                        <div class="uni-info">
+                            <h1 id="deptOut">Department of CSE</h1>
+                            <h2 id="uniOut">Varendra University</h2>
+                        </div>
+                        <div class="logo-box right-logo">
+                            <img src="logo/vu.png" alt="VU Logo" />
+                        </div>
+                    </div>
+
+                    <div class="lab-title-box">
+                        <h3>Lab Report – <span id="reportNoOutTop">01</span></h3>
+                    </div>
+
+                    <div class="course-line">
+                        <p>
+                            Course Title:
+                            <span id="courseTitleOut">Digital Signal Processing Lab</span>
+                        </p>
+                    </div>
+
+                    <table class="exp-table">
+                        <tr>
+                            <td class="bold">Exp. no</td>
+                            <td id="expNoOutTable">01</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Exp Name.</td>
+                            <td id="expNameOut">...</td>
+                        </tr>
+                    </table>
+
+                    <div class="submit-grid">
+                        <div class="sub-box sub-left">
+                            <span class="script-text">Submitted By</span>
+                            <div class="student-details">
+                                    <div class="row">
+                                        <strong><br>Name</strong> : <span id="stuNameOut"></span>
+                                    </div>
+                                    <div class="row">
+                                        <strong>ID </strong>: <span id="stuIdOut"></span>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Semester </strong>: <span id="semOut"></span>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Section </strong>: <span id="secOut"></span>
+                                    </div>
+                                    <div class="row">
+                                        <strong>Course code </strong>: <span id="codeOut"></span>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="sub-box sub-right">
+                            <span class="script-text">Submitted To</span>
+                            <div class="teacher">
+                                <p class="teacher-label"><br>Course Teacher - 1</p>
+                                <p><strong>Name :</strong> <span id="t1NameOut"></span></p>
+                                <p><span id="t1DesignationOut">Lecturer</span>, Varendra University</p>
+                            </div>
+                            <div class="teacher">
+                                <p class="teacher-label">Course Teacher - 2</p>
+                                <p><strong>Name :</strong> <span id="t2NameOut"></span></p>
+                                <p><span id="t2DesignationOut">Lecturer</span>, Varendra University</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="footer">
+                        <div class="sig-line">Signature Of The Course Teacher</div>
+                        <div class="marks-box">
+                            <div class="box"></div>
+                            <span>Obtained grade/marks</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Action completed!</span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+
+</html>
