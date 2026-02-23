@@ -517,7 +517,7 @@ function debounce(func, wait) {
         timeout = setTimeout(() => func(...args), wait);
     };
 }
-
+ 
 const debouncedUpdate = debounce(updatePreview, 150);
 document.querySelectorAll('input[type="text"]').forEach(input => {
     input.removeEventListener('input', updatePreview);
