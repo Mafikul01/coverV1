@@ -140,6 +140,12 @@ body {
 
 /* ===== DEV CARD ===== */
 .developer-info { margin-top: 10px; padding-top: 12px; border-top: 1px solid var(--border); }
+.dev-section-title {
+    color: var(--primary); font-size: 14px; font-weight: 600;
+    margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+    text-transform: uppercase; letter-spacing: 1px;
+}
+.dev-section-title i { font-size: 12px; opacity: 0.8; }
 .dev-card {
     background: rgba(0,240,255,0.05); border: 1px solid rgba(0,240,255,0.2);
     border-radius: var(--radius-md); padding: 10px 12px;
@@ -574,23 +580,40 @@ body[data-theme="minimal"] .select-wrapper::after {
     }
     .sidebar.active { transform: translateX(0); }
     .sidebar-content-wrapper { width: 100%; padding: 66px 14px 14px; }
-    .mobile-download-btn { display: flex; }
-    .preview-wrapper { padding: 18px 10px; }
-    #cover-page { transform: scale(0.5); }
+    .mobile-download-btn { 
+        display: flex;
+        position: fixed;
+        top: 14px;
+        right: 14px;
+        z-index: 99998;
+        margin: 0;
+        box-shadow: 0 4px 18px rgba(0,240,255,0.4);
+    }
+    .preview-wrapper { padding: 18px 10px; overflow-x: auto; justify-content: flex-start; min-width: 100%; }
+    #cover-page { transform: scale(0.5); min-width: 420mm; }
     .preview-controls { padding: 9px 12px; }
 }
 
 @media (max-width: 640px) {
     :root { --sidebar-width: 100vw; }
     .sidebar-content-wrapper { padding: 62px 12px 12px; }
-    #cover-page { transform: scale(0.41); }
+    .preview-wrapper { overflow-x: auto; justify-content: flex-start; }
+    #cover-page { transform: scale(0.41); min-width: 512mm; }
     .menu-toggle-btn { width: 38px; height: 38px; font-size: 15px; }
-    .mobile-download-btn { font-size: 11px; padding: 7px 12px; }
+    .mobile-download-btn { 
+        width: auto; height: 38px;
+        padding: 0 12px;
+        border-radius: 8px;
+        font-size: 11px;
+    }
+    .mobile-download-btn span { display: inline; }
+    .mobile-download-btn i { font-size: 12px; margin-right: 6px; }
     .dev-card { gap: 7px; }
 }
 
 @media (max-width: 420px) {
-    #cover-page { transform: scale(0.34); }
+    .preview-wrapper { overflow-x: auto; justify-content: flex-start; }
+    #cover-page { transform: scale(0.34); min-width: 618mm; }
     .flex-row { flex-direction: column; gap: 8px; }
     .flex-row > .input-wrapper { flex: none; width: 100%; }
 }
